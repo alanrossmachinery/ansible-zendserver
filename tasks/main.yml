@@ -5,26 +5,26 @@
     with_items:
      - python-apt
      - python-pycurl
-    sudo: yes
+    become: true
 
   - name: Download Zend repository PGP key
     apt_key: id=F7D2C623 url=http://repos.zend.com/zend.key state=present
-    sudo: yes
+    become: true
 
   - name: Add Zend package repository
     apt_repository: repo='deb http://repos.zend.com/zend-server/{{ zendserver_version }}/deb server non-free' state=present
-    sudo: yes
+    become: true
 
   - name: Install Zend Server
     apt: update_cache=yes pkg=zend-server-php-{{ php_version }}
-    sudo: yes
+    become: true
 
   - name: Create entry in bash_profile
     template: dest=/etc/profile.d/zend-server.sh src=zend-server.sh
-    sudo: yes
+    become: true
     when: php_cli_in_path == true
 
   - name: Make sure there is no entry in profile.d when selected so
     file: state=absent path=/etc/profile.d/zend-server.sh
-    sudo: yes
+    become: true
     when: php_cli_in_path == false
