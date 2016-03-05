@@ -1,0 +1,20 @@
+---
+- name: Add Zend package repository
+  apt_repository: repo='deb http://repos.zend.com/zend-server/{{ zendserver_version }}/deb server non-free' state=present
+  become: true
+  when: not (zendserver_version|version_compare('5.6', '>=') and ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('12.04', '>='))
+
+- name: "Add Zend package repository (Ubuntu 12.04)"
+  apt_repository: repo='deb http://repos.zend.com/zend-server/5.6.0_ubuntu1204/deb server non-free' state=present
+  become: true
+  when: (zendserver_version|version_compare('5.6', '>=') and ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('12.04', '>='))
+
+- name: "Install Zend Server {{ zendserver_version }}"
+  apt: update_cache=yes pkg=zend-server-php-{{ php_version }}
+  become: true
+  when: zendserver_community_edition == false
+
+- name: "Install Zend Server Community Edition {{ zendserver_version }}"
+  apt: update_cache=yes pkg=zend-server-ce-php-{{ php_version }}
+  become: true
+  when: zendserver_community_edition == true
