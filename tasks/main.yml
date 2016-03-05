@@ -11,13 +11,11 @@
     apt_key: id=F7D2C623 url=http://repos.zend.com/zend.key state=present
     become: true
 
-  - name: Add Zend package repository
-    apt_repository: repo='deb http://repos.zend.com/zend-server/{{ zendserver_version }}/deb server non-free' state=present
-    become: true
+  - include: install-zs5.yml
+    when: zendserver_version|version_compare('6.0', '<')
 
-  - name: Install Zend Server
-    apt: update_cache=yes pkg=zend-server-php-{{ php_version }}
-    become: true
+  - include: install-zs6.yml
+    when: zendserver_version|version_compare('6.0', '>=')
 
   - name: Create entry in bash_profile
     template: dest=/etc/profile.d/zend-server.sh src=zend-server.sh

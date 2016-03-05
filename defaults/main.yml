@@ -1,3 +1,4 @@
 zendserver_version: 6.3
+zendserver_community_edition: false
 php_version: 5.5
 php_cli_in_path: true
