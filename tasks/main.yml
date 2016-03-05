@@ -26,3 +26,8 @@
     file: state=absent path=/etc/profile.d/zend-server.sh
     become: true
     when: php_cli_in_path == false
+
+  - name: "Accept Zend Server EULA"
+    command: /usr/local/zend/bin/zs-setup accept-eula
+    become: true
+    changed_when: false
