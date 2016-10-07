@@ -9,7 +9,7 @@
   become: true
   when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('12', '>=') and ansible_distribution_version|version_compare('13.04', '<=')) or (ansible_os_family == 'Debian' and ansible_distribution_version|version_compare('7', '='))
 
-- name: "Add Zend package repository (Debian 7, Ubuntu 12 - 13.04)"
+- name: "Add Zend package repository (Debian 8+, Ubuntu 13.10+)"
   apt_repository: repo='deb http://repos.zend.com/zend-server/{{ zendserver_version }}/deb_apache2.4 server non-free' state=present
   become: true
   when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('13.10', '>=')) or (ansible_os_family == 'Debian' and ansible_distribution_version|version_compare('8', '>='))
