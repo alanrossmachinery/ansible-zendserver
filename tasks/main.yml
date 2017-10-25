@@ -31,9 +31,10 @@
     command: /usr/local/zend/bin/zs-setup accept-eula
     become: true
     changed_when: false
+    when: zendserver_version|version_compare('6.0', '<')
 
   - name: "Set Zend Server GUI password"
     command: "/usr/local/zend/bin/zs-setup set-password {{ zendserver_gui_password }}"
     become: true
     changed_when: false
-    when: zendserver_gui_password != ""
+    when: zendserver_gui_password != "" and zendserver_version|version_compare('6.0', '<')
